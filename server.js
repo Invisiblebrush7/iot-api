@@ -1,33 +1,35 @@
 // Express
 const express = require('express');
 const app = express();
-const session = require('express-session');
 
 //ENV file
 require('dotenv').config();
 // Mongoose / DB
 require('./config/db');
 
-// Express session middleware
-app.use(
-	session({
-		secret: 'secret',
-		resave: true,
-		saveUninitialized: true,
-	})
-);
-
-// Passport middleware
-const passport = require('passport');
-require('./config/passport')(passport);
-app.use(passport.initialize());
-app.use(passport.session());
-
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // body-parser
 
-const { ensureAuth } = require('./config/auth');
+// Session
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+app.use(cookieParser());
+
+const oneDay = 1000 * 60 * 60 * 24;
+app.set('trust proxy', 1); // trust first proxy
+app.use(
+	session({
+		name: 'session',
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: false,
+		cookie: {
+			maxAge: oneDay, // 1 min
+		},
+	})
+);
+
 const userRoutes = require('./src/routes/userRoutes');
 // app.use('/error_logs', ensureAuth, errorLogsRoutes);
 app.use('', userRoutes);
