@@ -7,9 +7,10 @@ const { ensureAuth, ensureGuest } = require('../middlewares/auth');
 
 router.post('/sign_up', ensureGuest, UsersController.signUpPost);
 router.post('/login', ensureGuest, UsersController.login);
-router.get('/users', ensureAuth, (req, res) => {
-	return res.status(200).send('This is a pretty cool route');
-});
+// router.get('/users', ensureAuth, (req, res) => {
+// 	return res.status(200).send('This is a pretty cool route');
+// });
 router.post('/logout', ensureAuth, UsersController.logout);
+router.get('/my_account', ensureAuth, UsersController.myAccount);
 
 module.exports = router;

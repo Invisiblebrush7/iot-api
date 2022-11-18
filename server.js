@@ -33,6 +33,9 @@ app.use(
 const userRoutes = require('./src/routes/userRoutes');
 // app.use('/error_logs', ensureAuth, errorLogsRoutes);
 app.use('', userRoutes);
+app.get('/', (req, res) => {
+	res.status(200).send('IoT API');
+});
 
 // Start server
 const port = process.env.PORT || 3000;

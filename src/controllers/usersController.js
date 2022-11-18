@@ -7,6 +7,11 @@ const jsonwebtoken = require('jsonwebtoken');
 const jsonwebtokenSecret = 'my-cool-secret';
 
 class UsersController {
+	static async myAccount(req, res) {
+		console.log(req.session.user);
+		return res.status(200).send(req.session.user);
+	}
+
 	static generateToken(user) {
 		return jsonwebtoken.sign({ data: user }, jsonwebtokenSecret, { expiresIn: '24h' });
 	}
