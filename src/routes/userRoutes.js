@@ -3,10 +3,13 @@ const express = require('express');
 const router = express.Router();
 
 const { UsersController } = require('../controllers/usersController');
-const { ensureAuth, ensureGuest, verifyJWT } = require('../middlewares/auth');
+const { ensureAuth, ensureGuest } = require('../middlewares/auth');
 
 router.post('/sign_up', ensureGuest, UsersController.signUpPost);
 router.post('/login', ensureGuest, UsersController.login);
-router.get('/logout', ensureAuth, verifyJWT, UsersController.logout);
+router.get('/users', (req, res) => {
+	return res.status(200).send('This is a pretty cool route');
+});
+router.post('/logout', ensureAuth, UsersController.logout);
 
 module.exports = router;

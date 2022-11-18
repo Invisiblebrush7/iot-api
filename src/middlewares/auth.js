@@ -16,11 +16,11 @@ exports.verifyJWT = (req, res, next) => {
 
 exports.ensureAuth = (req, res, next) => {
 	if (req.session.user) {
-		console.log(`Found User Session`);
+		console.log(`Ensure Auth - Found User Session`);
 		next();
 	} else {
-		console.log(`No User Session Found`);
-		return res.status(401).send('Unauthorized');
+		console.log(`Ensure Auth - No User Session Found`);
+		return res.status(401).send('Ensure Auth - Unauthorized');
 	}
 };
 exports.ensureGuest = (req, res, next) => {
