@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
 		type: Array,
 		default: [],
 	},
+	typeOfUser: {
+		type: String,
+		enum: ['simple', 'premium'],
+		default: 'simple',
+	},
 });
 
 module.exports = mongoose.model('User', userSchema);
