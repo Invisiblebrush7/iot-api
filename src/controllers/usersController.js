@@ -8,7 +8,6 @@ const jsonwebtokenSecret = 'my-cool-secret';
 
 class UsersController {
 	static async myAccount(req, res) {
-		console.log(req.session.user);
 		return res.status(200).send(req.session.user);
 	}
 
@@ -36,11 +35,10 @@ class UsersController {
 				if (err) {
 					return res.status(500).send('Something went wrong :(');
 				} else if (match) {
-					console.log('Login Succesful :)');
 					const jwtToken = UsersController.generateToken(user);
 					req.session.user = user;
 					req.session.jwt = jwtToken;
-					return res.status(200).json({ jwtToken });
+					return res.status(200).json(user);
 				} else {
 					return res.status(401).send('Invalid email or password');
 				}
@@ -71,12 +69,12 @@ class UsersController {
 			} else {
 				const hashedPass = await bcrpyt.hash(password, 10);
 
-				User.create({
+				const user = User.create({
 					email,
 					username,
 					password: hashedPass,
 				});
-				res.status(201).send('User created');
+				res.status(201).json(user);
 			}
 		} catch (error) {
 			res.status(400).json({ error });
